@@ -6,7 +6,7 @@
     <title>Flappy Bat</title>
     <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
-    <!-- Mobile Audio Fix -->
+    <!-- Mobile Fixes -->
     <meta name="mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-capable" content="yes">
 </head>
@@ -26,7 +26,7 @@
         </div>
     </div>
 
-    <!-- Updated Audio Elements with 100% working sources -->
+    <!-- Audio Elements -->
     <audio id="flap-sound" src="https://cdn.pixabay.com/download/audio/2022/03/19/audio_305d5d97a5.mp3?filename=wing-flap-117482.mp3"></audio>
     <audio id="score-sound" src="https://cdn.pixabay.com/download/audio/2021/08/04/audio_bb6308eedb.mp3?filename=success-bell-6016.mp3"></audio>
     <audio id="hit-sound" src="https://cdn.pixabay.com/download/audio/2021/08/04/audio_3fd240e501.mp3?filename=negative-tone-95223.mp3"></audio>
@@ -34,21 +34,30 @@
 
     <script src="game.js"></script>
     
-    <!-- Mobile Audio Unlocker -->
-    <div id="unmute-overlay" style="position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.7); color:white; display:flex; justify-content:center; align-items:center; z-index:1000;">
+    <!-- Improved Unmute Overlay -->
+    <div id="unmute-overlay" style="position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.9); color:white; display:flex; justify-content:center; align-items:center; z-index:1000; font-family: 'Press Start 2P', cursive;">
         <div style="text-align:center; padding:20px;">
-            <h2>TAP TO UNMUTE AUDIO</h2>
-            <p>(Required for game sounds)</p>
+            <h2 style="color:#4cc9f0; margin-bottom:30px;">TAP ANYWHERE TO START</h2>
+            <p style="color:#f72585;">(Game requires sound permission)</p>
         </div>
     </div>
     <script>
-        document.getElementById('unmute-overlay').addEventListener('click', function() {
-            // Play all audio elements briefly to unlock them
-            document.getElementById('bg-music').volume = 0.3;
-            document.getElementById('bg-music').play().catch(e => console.log("Autoplay blocked (normal):", e));
-            document.getElementById('flap-sound').play().catch(e => console.log(e));
-            this.style.display = 'none';
-        });
+        // Unified audio/game starter
+        function initGame() {
+            // Hide overlay
+            document.getElementById('unmute-overlay').style.display = 'none';
+            
+            // Unlock audio
+            const bgMusic = document.getElementById('bg-music');
+            bgMusic.volume = 0.3;
+            bgMusic.play().catch(e => console.log("Music auto-play blocked (normal on first try)"));
+            
+            // Start game
+            document.getElementById('start-btn').click();
+        }
+        
+        // Single tap handler for both audio and game start
+        document.getElementById('unmute-overlay').addEventListener('click', initGame);
     </script>
 </body>
 </html>
