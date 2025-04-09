@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Flappy Bat</title>
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div id="game-container">
+        <canvas id="game-canvas"></canvas>
+        <div id="game-over">
+            <h2>GAME OVER</h2>
+            <p>Score: <span id="final-score">0</span></p>
+            <p>High Score: <span id="high-score">0</span></p>
+            <button id="restart-btn">FLY AGAIN</button>
+        </div>
+        <div id="start-screen">
+            <h1>FLAPPY BAT</h1>
+            <p>Avoid the obstacles!</p>
+            <button id="start-btn">START GAME</button>
+        </div>
+    </div>
+    
+    <!-- Sound Effects -->
+    <audio id="flap-sound" src="https://assets.mixkit.co/sfx/preview/mixkit-bat-flapping-1177.mp3"></audio>
+    <audio id="score-sound" src="https://assets.mixkit.co/sfx/preview/mixkit-achievement-bell-600.mp3"></audio>
+    <audio id="hit-sound" src="https://assets.mixkit.co/sfx/preview/mixkit-arcade-retro-game-over-213.mp3"></audio>
+    <audio id="bg-music" loop src="https://assets.mixkit.co/music/preview/mixkit-game-show-suspense-waiting-668.mp3"></audio>
+    
+    <script src="game.js"></script>
+</body>
+</html>
