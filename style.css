@@ -100,3 +100,19 @@ button:hover {
         font-size: 10px;
     }
 }
+/* Add this at the bottom of your CSS */
+#unmute-overlay {
+    cursor: pointer;
+    font-size: 16px;
+}
+
+#unmute-overlay h2 {
+    margin-bottom: 20px;
+    text-shadow: 2px 2px #f72585;
+}
+
+@media (max-width: 500px) {
+    #unmute-overlay {
+        font-size: 14px;
+    }
+}
