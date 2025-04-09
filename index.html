@@ -32,32 +32,35 @@
     <audio id="hit-sound" src="https://cdn.pixabay.com/download/audio/2021/08/04/audio_3fd240e501.mp3?filename=negative-tone-95223.mp3"></audio>
     <audio id="bg-music" loop src="https://cdn.pixabay.com/download/audio/2023/04/06/audio_8a1b6a0d1c.mp3?filename=chill-abstract-intention-149058.mp3"></audio>
 
-    <script src="game.js"></script>
+    <!-- Improved Initialization Script -->
+    <script>
+        // 1. FIRST remove any existing game.js script
+        document.addEventListener('DOMContentLoaded', function() {
+            // 2. Create new script element
+            const script = document.createElement('script');
+            script.src = 'game.js';
+            
+            // 3. Wait until AFTER unmute overlay is clicked
+            document.getElementById('unmute-overlay').addEventListener('click', function() {
+                this.style.display = 'none';
+                
+                // 4. Unlock audio first
+                const bgMusic = document.getElementById('bg-music');
+                bgMusic.volume = 0.3;
+                bgMusic.play().catch(e => console.log("Music init:", e));
+                
+                // 5. NOW load the game logic
+                document.body.appendChild(script);
+            });
+        });
+    </script>
     
-    <!-- Improved Unmute Overlay -->
+    <!-- Unmute Overlay -->
     <div id="unmute-overlay" style="position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.9); color:white; display:flex; justify-content:center; align-items:center; z-index:1000; font-family: 'Press Start 2P', cursive;">
         <div style="text-align:center; padding:20px;">
-            <h2 style="color:#4cc9f0; margin-bottom:30px;">TAP ANYWHERE TO START</h2>
-            <p style="color:#f72585;">(Game requires sound permission)</p>
+            <h2 style="color:#4cc9f0; margin-bottom:30px;">TAP TO UNMUTE AND PLAY</h2>
+            <p style="color:#f72585;">(Required for game sounds)</p>
         </div>
     </div>
-    <script>
-        // Unified audio/game starter
-        function initGame() {
-            // Hide overlay
-            document.getElementById('unmute-overlay').style.display = 'none';
-            
-            // Unlock audio
-            const bgMusic = document.getElementById('bg-music');
-            bgMusic.volume = 0.3;
-            bgMusic.play().catch(e => console.log("Music auto-play blocked (normal on first try)"));
-            
-            // Start game
-            document.getElementById('start-btn').click();
-        }
-        
-        // Single tap handler for both audio and game start
-        document.getElementById('unmute-overlay').addEventListener('click', initGame);
-    </script>
 </body>
 </html>
