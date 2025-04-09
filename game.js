@@ -1,5 +1,10 @@
-// Mobile audio unlock helper
+// Mobile Audio Unlock System
+let audioUnlocked = false;
+
 function unlockAudio() {
+    if (audioUnlocked) return;
+    
+    // Create temporary audio context
     const sounds = [
         document.getElementById('flap-sound'),
         document.getElementById('score-sound'),
@@ -7,34 +12,53 @@ function unlockAudio() {
         document.getElementById('bg-music')
     ];
     
+    // Play/pause all sounds to unlock them
     sounds.forEach(sound => {
         sound.volume = 0.3;
-        sound.play().catch(e => console.log("Audio init:", e));
-        sound.pause();
-        sound.currentTime = 0;
+        sound.play().then(() => {
+            sound.pause();
+            sound.currentTime = 0;
+        }).catch(e => console.log("Audio init:", e));
     });
+    
+    audioUnlocked = true;
+    console.log("Audio unlocked!");
 }
 
 document.addEventListener('DOMContentLoaded', () => {
-    // Unlock audio on first interaction
+    // Unlock audio on any touch/click
     document.addEventListener('click', unlockAudio, { once: true });
+    document.addEventListener('touchstart', unlockAudio, { once: true });
+
+    // Game variables
+    const canvas = document.getElementById('game-canvas');
+    const ctx = canvas.getContext('2d');
+    canvas.width = 400;
+    canvas.height = 600;
     
-    // Rest of your existing game code...
-    // [Keep all your original game logic here]
-    // Only add the unlockAudio() call above
+    // [Keep ALL your original game code below this line]
+    // Only replace the audio-related functions:
     
-    // Modified jump function example:
+    function playSound(id) {
+        if (!audioUnlocked) return;
+        const sound = document.getElementById(id);
+        sound.currentTime = 0;
+        sound.play().catch(e => console.log(id, "error:", e));
+    }
+
     function jump() {
         if (!isGameRunning) return;
         bat.velocity = JUMP_FORCE;
-        const flapSound = document.getElementById('flap-sound');
-        flapSound.currentTime = 0;
-        flapSound.play().catch(e => console.log("Flap sound:", e));
+        playSound('flap-sound');
     }
-    
-    // Modified start game function:
+
     function startGame() {
-        document.getElementById('bg-music').play().catch(e => console.log("Music:", e));
-        // ... rest of your start game logic
+        if (audioUnlocked) {
+            document.getElementById('bg-music').play()
+                .catch(e => console.log("Music error:", e));
+        }
+        // ... rest of your original startGame() code
     }
+
+    // [Keep all other original game functions]
 });
